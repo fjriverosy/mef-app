@@ -1,0 +1,40 @@
+
+<div *ngIf="isLoading">
+  <div class="common-loader-container">
+    <app-loader></app-loader>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Listado de registros encontrados</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>RUT</th>
+        <th>Nombre</th>
+        <th>Entrada</th>
+        <th>Salida</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>12345678-9</td>
+        <td>Clark Kent</td>
+        <td>2017-05-04 9:00:00</td>
+        <td>2017-05-04 19:00:00</td>
+      </tr>
+      <tr>
+        <td>12345678-8</td>
+        <td>Rosa Espinoza</td>
+        <td>2017-05-04 9:00:00</td>
+        <td>2017-05-04 19:00:00</td>
+      </tr>
+      <tr>
+        <td>12345677-9</td>
+        <td>Bruce Wayne</td>
+        <td>2017-05-04 9:00:00</td>
+        <td>2017-05-04 19:00:00</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
