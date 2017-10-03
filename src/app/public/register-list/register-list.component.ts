@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RegisterListService } from './services/register-list.service';
+import { Register } from './models/register.model';
 
 @Component({
   selector: 'app-register-list',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterListComponent implements OnInit {
   isLoading = true;
-  constructor() { }
+  registers: Array<Register>;
+  constructor(private _registerListService: RegisterListService) { }
 
   ngOnInit() {
+    this._registerListService.getAll().subscribe(
+      (data: Register[]) => {
+        // next
+        this.registers = data;
+      }, err => {
+        console.log('lol');
+      },
+      () => {
+        console.log('Finalizado!');
+      }
+    );
   }
 
 }
