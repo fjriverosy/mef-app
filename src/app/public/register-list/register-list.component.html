@@ -1,40 +1,89 @@
+<section class="search byDNI" width="33%">
+  <h4>Búsqueda por DNI</h4>
+  <label for="dni">DNI:</label>
+  <input mdInput [(ngModel)]="register.dni" type="text" name="dni">
+  <a class="boton" (click)="onGetRegistersByDNI(register.dni)" aria-hidden="true"><i class="fa fa-search"></i> Buscar</a>
+  <a class="boton" (click)="onGetXLSByDNI(register.dni)" aria-hidden="true"><i class="fa fa-file-excel-o"></i> Export XLS</a>
+</section>
 
-<div *ngIf="isLoading">
-  <div class="common-loader-container">
-    <app-loader></app-loader>
+<section class="search byExactName" width="33%">
+  <h4>Búsqueda por Nombre exacto</h4>
+  <label for="name">Nombre:</label>
+  <input mdInput [(ngModel)]="register.nombre" type="text" id="nombre">
+  <a class="boton " (click)="onGetRegistersByExactName(register.nombre)" aria-hidden="true"><i class="fa fa-search"></i> Buscar</a>
+  <a class="boton" (click)="onGetXLSByExactName(register.nombre)" aria-hidden="true"><i class="fa fa-file-excel-o"></i> Export XLS</a>
+</section>
+
+<section class="search byNameCoincidence" width="33%">
+  <h4>Búsqueda por coincidencia de nombre</h4>
+  <label for="name">Nombre:</label>
+  <input type="text" name="coincidenceName">
+  <a class="boton" (click)="onGetRegistersByCoincidenceName(register.nombre)" aria-hidden="true"><i class="fa fa-search"></i> Buscar</a>
+</section>
+<!-- Limpiar toda la tabla -->
+<section class="search all">
+  <div>
+    <a (click)="onCleanTable()"><i class="fa fa-undo"></i> Limpiar Tabla </a>
   </div>
-</div>
+</section>
 
-<div class="container">
-  <h2>Listado de registros encontrados</h2>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>RUT</th>
-        <th>Nombre</th>
-        <th>Entrada</th>
-        <th>Salida</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>12345678-9</td>
-        <td>Clark Kent</td>
-        <td>2017-05-04 9:00:00</td>
-        <td>2017-05-04 19:00:00</td>
-      </tr>
-      <tr>
-        <td>12345678-8</td>
-        <td>Rosa Espinoza</td>
-        <td>2017-05-04 9:00:00</td>
-        <td>2017-05-04 19:00:00</td>
-      </tr>
-      <tr>
-        <td>12345677-9</td>
-        <td>Bruce Wayne</td>
-        <td>2017-05-04 9:00:00</td>
-        <td>2017-05-04 19:00:00</td>
-      </tr>
-    </tbody>
-  </table>
+<!-- tabla -->
+<div class="tableContainer">
+  <section class="registerResult">
+    <div class="container" *ngIf="isLoading; else elseBlock">
+      <div class="common-loader-container">
+        <app-loader></app-loader>
+      </div>
+    </div>
+    <ng-template #elseBlock>
+      <h3>Listado de registros encontrados</h3>
+      <table
+      class="table table-striped"
+      [mfData]="registers | dataFilter : filterQuery"
+      #mf="mfDataTable"
+      [mfRowsOnPage]="rowsOnPage"
+      [mfSortBy]="sortBy"
+      [mfSortOrder]="sortOrder"
+      >
+        <thead class="cabecera">
+          <tr>
+            <th style="width: 20%">
+              <mfDefaultSorter by="dni"> RUT</mfDefaultSorter>
+            </th>
+            <th style="width: 30%">
+              <mfDefaultSorter by="nombre"> Nombre</mfDefaultSorter>
+            </th>
+            <th style="width: 25%">
+              <mfDefaultSorter by="entradas"> Entradas</mfDefaultSorter>
+            </th>
+            <th style="width: 25%">
+              <mfDefaultSorter by="salidas"> Salidas </mfDefaultSorter>
+            </th>
+          </tr>
+         <!-- Filtro para busqueda en tabla
+           <tr>
+            <th colspan="5">
+              filter by name:
+              <input class="form-control" [(ngModel)]="filterQuery"/>
+            </th>
+          </tr> -->
+        </thead>
+        <tbody *ngFor="let register of registers">
+          <tr>
+            <td>{{register.dni}}</td>
+            <td>{{register.nombre}}</td>
+            <td>{{register.entrada}}</td>
+            <td>{{register.salida}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </ng-template>
+  </section>
 </div>
