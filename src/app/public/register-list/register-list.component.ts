@@ -92,22 +92,9 @@ export class RegisterListComponent implements OnInit {
     );
   }
   onGetXLSByDNI(dni) {
-    console.log(dni);
     this.register = ({'dni': dni});
-    this._registerListService.getXlsByDni(this.register).subscribe(
-      (data: Register[]) => {
-        // next
-        this.registers = data;
-        this.isLoading = false;
-      }, err => {
-        console.log(err);
-        this.isLoading = true;
-      },
-      () => {
-        console.log('Finalizado!');
-        this.register = new Register();
-      }
-    );
+    console.log('Getting registers about', this.register.dni);
+    this._registerListService.getXlsByDni(this.register);
   }
 
   onGetRegistersByExactName(nombre) {

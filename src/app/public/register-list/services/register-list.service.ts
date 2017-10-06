@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Headers } from '@angular/http';
-
+import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
@@ -9,6 +8,7 @@ import { Register } from '../models/register.model';
 @Injectable()
 export class RegisterListService {
   registers: Array<Register> = [];
+  API_BASE_URI: 'http://localhost:9000/';
 
 
   constructor(private _http: Http) {
@@ -61,12 +61,12 @@ export class RegisterListService {
     });
   }
 
-  getXlsByDni(register: Register): Observable<Array<Register>> {
-    // console.log(register.dni);
-    const url = 'http://localhost:9000/registers/exportdnixls/' + register.dni;
-    return this._http.get(url).map((response) => {
-      console.log(response);
-      return response.json();
+  getXlsByDni(register: Register) {
+    const url = this.API_BASE_URI + 'registers/exportdnixls/' + register.dni;
+    console.log('conecting to endpoint', 'registers/exportdnixls/' + register.dni);
+    return this._http.get(url, { responseType: ResponseContentType.Blob }).map((response) => {
+      console.log('Done');
+      return response.blob;
     });
   }
 }

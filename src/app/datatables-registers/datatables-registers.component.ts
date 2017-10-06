@@ -17,7 +17,7 @@ export class DatatablesRegistersComponent implements OnInit {
   constructor(private _http: Http) { }
 
   ngOnInit(): void {
-    this._http.get("assets/data.json").subscribe(
+    this._http.get('assets/data.json').subscribe(
       (data) => {
         setTimeout(() => {
           this.data = data.json();
